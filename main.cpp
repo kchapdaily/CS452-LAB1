@@ -10,7 +10,16 @@ int counter=0;
 
 GLuint vaoID, vboID;
 
-GLfloat triangle_vertexarray[]={0.5f,-0.5f,0.0f,0.0f,0.5f,0.0f,-0.5f,-0.5f,0.0f};// vertices that are drawn x,y,z ...
+GLfloat triangle_vertexarray[]={0.5f,-0.5f,0.0f,0.0f,0.5f,0.0f,-0.5f,-0.5f,0.0f};
+GLfloat square_vertexarray[]={0.5f,0.5f,0.0f,
+					-0.5f,0.5f,0.0f,
+					-0.5f,-0.5f,0.0f,
+					0.5f, -0.5f, 0.0f};
+GLfloat pentagon_vertexarray[]={0.5f,0.5f,0.0f,
+					0.0f, 0.7f, 0.0f,
+					-0.5f,0.5f,0.0f,
+					-0.5f,-0.5f,0.0f,
+					0.5f, -0.5f, 0.0f};
 
 //indices of triangle
 GLubyte indices[3]={0,1,2};
@@ -40,17 +49,55 @@ void triangle(){
   glFlush();//makes sure the prcesses finish
 }
 
-void square(){
-	glClear(GL_COLOR_BUFFER_BIT);
-	//glDrawArrays(GL_POINTS,0,numpoints);
-	glFlush();
+void square_thing(){
+  glClear(GL_COLOR_BUFFER_BIT);//clears the screen
+  
+  glGenVertexArrays(1, &vaoID);//generates object name for Vertex Array Objects
+  glBindVertexArray(vaoID);//bind the object to the array
+
+  glGenBuffers(1, &vboID);//generates object name for the Vertex Buffer Object
+  glBindBuffer(GL_ARRAY_BUFFER, vboID);//bind the object to the array
+  glBufferData(GL_ARRAY_BUFFER, sizeof(square_vertexarray), square_vertexarray, GL_STATIC_DRAW);//allocates the memory of the vertices
+
+ ShaderInfo shaders[]={//create the shader specified by my initshaders 
+  { GL_VERTEX_SHADER , "vertexshader.glsl"} ,
+  { GL_FRAGMENT_SHADER , "fragmentshader.glsl"},
+  { GL_NONE , NULL} 
+  };
+
+  initShaders(shaders);//creates shaders
+  
+  glEnableVertexAttribArray(0);//enables the vertex attribute index 
+  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,(void*)0);//specified the start the vertice array used to the draw
+
+  glDrawArrays(GL_QUADS, 0, 4);//draws array
+  glFlush();//makes sure the prcesses finish
 
 }
 
-void pentagon(){
-	glClear(GL_COLOR_BUFFER_BIT);
-	//glDrawArrays(GL_POINTS,0,numpoints);
-	glFlush();
+void pentagon_thing(){
+  glClear(GL_COLOR_BUFFER_BIT);//clears the screen
+  
+  glGenVertexArrays(1, &vaoID);//generates object name for Vertex Array Objects
+  glBindVertexArray(vaoID);//bind the object to the array
+
+  glGenBuffers(1, &vboID);//generates object name for the Vertex Buffer Object
+  glBindBuffer(GL_ARRAY_BUFFER, vboID);//bind the object to the array
+  glBufferData(GL_ARRAY_BUFFER, sizeof(pentagon_vertexarray), pentagon_vertexarray, GL_STATIC_DRAW);//allocates the memory of the vertices
+
+ ShaderInfo shaders[]={//create the shader specified by my initshaders 
+  { GL_VERTEX_SHADER , "vertexshader.glsl"} ,
+  { GL_FRAGMENT_SHADER , "fragmentshader.glsl"},
+  { GL_NONE , NULL} 
+  };
+
+  initShaders(shaders);//creates shaders
+  
+  glEnableVertexAttribArray(0);//enables the vertex attribute index 
+  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,(void*)0);//specified the start the vertice array used to the draw
+
+  glDrawArrays(GL_POLYGON, 0, 5);//draws array
+  glFlush();//makes sure the prcesses finish
 }
 
 void drawscene(){
@@ -60,11 +107,11 @@ void drawscene(){
       glutPostRedisplay();//sets flags for opengl to redraw the display
       break;
     case 1: //square
-      glutDisplayFunc(square);
+      glutDisplayFunc(square_thing);
       glutPostRedisplay();
       break;
     case 2: //pentagon
-    	glutDisplayFunc(pentagon);
+    	glutDisplayFunc(pentagon_thing);
     	glutPostRedisplay();
     	break;
     }

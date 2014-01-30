@@ -26,8 +26,8 @@ void triangle(){
   glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertexarray), triangle_vertexarray, GL_STATIC_DRAW);//allocates the memory of the vertices
 
  ShaderInfo shaders[]={//create the shader specified by my initshaders 
-  { GL_VERTEX_SHADER , "vertexshader1.glsl"} ,
-  { GL_FRAGMENT_SHADER , "fragmentshader1.glsl"},
+  { GL_VERTEX_SHADER , "vertexshader.glsl"} ,
+  { GL_FRAGMENT_SHADER , "fragmentshader.glsl"},
   { GL_NONE , NULL} 
   };
 
@@ -87,7 +87,7 @@ void mousepress(int button, int state, int x, int y){
 int main(int argc, char **argv){
 	//Freeglut window and context management	
   glutInit(&argc, argv);
-  glutCreateWindow("All the Things");
+  glutCreateWindow("Shapes");//creates the window with the specified name
   
   //initializes glew
   glewExperimental=GL_TRUE;
